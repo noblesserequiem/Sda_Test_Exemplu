@@ -33,7 +33,7 @@ void afisare()
 		printf("%s %s %s %d\n", tab[j].titlu,tab[j].p_a,tab[j].n_a,tab[j].an);
 	}
 	
-
+	printf("================\n\n");
 }
 
 void shell()
@@ -84,12 +84,52 @@ void quick(int low,int high)
 		quick(pi + 1, high);
 	}
 }
+int fanion(int an)//cautam dupa an
+{
+	int i;
+	n++;//marim tablou sa punem elementul cautat pe ultima pozitie
+	tab[n].an = an; //punem la final anul chiar daca restul informatiilor sunt goale, cautam dupa an=>nu avem nevoie de restul inf
+	for (i = 0; i <= n; i++)
+	{
+		if (tab[i].an == an)
+		{
+			printf("element gasit pozitia: %d\n", i+1); //adunam 1 sa afiseze frumos pozitia(am inceput de la 0)
+			n--;//scadem dimensiunea tabloului pentru ca am adaugat elementul la final si afiseaza un simplu an copiat
+			return i;//am gasit pozitia elementului in tablou unde anul coincide=> returnam pozitia gasita oprim functia
+		} 
+	}
+	return n; //daca nu gaseste returneaza ultima pozitie.... Oricum nu ajunge aici 
+}
+int interpolare(int an)
+{
+	//informatiile sunt deja sortate
+	int m,low = 0, high = n; //capetele vectorului
+	if (an >= tab[low].an&& an <= tab[high].an) //verificam anul cautat sa fie in interval
+	{
+		do {
+			m = low + (an - tab[low].an) / (tab[high].an - tab[low].an)*(high - low);//formula am demonstrat-o la lab, ceva cu ecuatia pantei si un punct de pe dreapta, am uitat -__- =>toceala express
+		//gasim un punct cat mai aproape de cel cautat
+			if (an > tab[m].an)
+				low = m + 1;//daca ce cautam este mai sus decat unde suntem acum modifica limita de jos a intervalului de cautare
+			else
+				high = m - 1; //daca e mai jos
+		} while (tab[m].an!=an); //repetam pana gasim ce cautam
+		//am iesit yeee am gasit
+		printf("Poz el: %d\n", m);
+		 //returnam pozitia, daca o vrem in main
+	}
+	return m;
+}
 int main()
 {
+	int poz;
 	citire();
 	afisare();
+	//poz = fanion(564); //cautam anul 564 din fisierul Carti.txt 
 	//shell();
 	quick(0, n);
+	afisare();// afisam sortat 
+	poz = interpolare(564); //executam dupa o sortare
 	afisare();
 	_getch();
 	return 0;
