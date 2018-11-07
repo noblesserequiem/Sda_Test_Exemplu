@@ -115,12 +115,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="Carti.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="Source1.cpp">
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4996</DisableSpecificWarnings>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Carti.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
