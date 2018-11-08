@@ -38,19 +38,28 @@ void afisare()
 
 void shell()
 {
-	int gap,i;
+	int gap,i,j;
 	carte aux;
-	for (gap = n / 2; gap > 0; gap--)
+	for (gap = (n / 2); gap > 0; gap--)
 	{
-		for (i = 0; i < n-1; i = i + gap)
+		
+
+		for (i = gap; i <= n; i++)
 		{
-			if (tab[i].an > tab[i + gap].an)
+			aux = tab[i];
+			j = i - gap;
+			while (j >= 0 && tab[j].an > aux.an)
 			{
-				aux = tab[i];
-				tab[i] = tab[i + gap];
-				tab[i + gap] = aux;
+				tab[j + gap] = tab[j];
+				j = j - gap;
 			}
+			
+			tab[j+gap] = aux;
+
+
 		}
+		
+		
 	}
 }
 int partition(int low, int high)
@@ -86,19 +95,17 @@ void quick(int low,int high)
 }
 int fanion(int an)//cautam dupa an
 {
-	int i;
+	int i=0;
 	n++;//marim tablou sa punem elementul cautat pe ultima pozitie
 	tab[n].an = an; //punem la final anul chiar daca restul informatiilor sunt goale, cautam dupa an=>nu avem nevoie de restul inf
-	for (i = 0; i <= n; i++)
+	
+	while (tab[i].an != an)
 	{
-		if (tab[i].an == an)
-		{
-			printf("element gasit pozitia: %d\n", i+1); //adunam 1 sa afiseze frumos pozitia(am inceput de la 0)
-			n--;//scadem dimensiunea tabloului pentru ca am adaugat elementul la final si afiseaza un simplu an copiat
-			return i;//am gasit pozitia elementului in tablou unde anul coincide=> returnam pozitia gasita oprim functia
-		} 
+		i++;
 	}
-	return n; //daca nu gaseste returneaza ultima pozitie.... Oricum nu ajunge aici 
+	printf("element gasit pozitia: %d\n", i+1); //adunam 1 sa afiseze frumos pozitia(am inceput de la 0)
+	n--;//scadem dimensiunea tabloului pentru ca am adaugat elementul la final si afiseaza un simplu an copiat
+	return i;//am gasit pozitia elementului in tablou unde anul coincide=> returnam pozitia gasita oprim functia
 }
 int interpolare(int an)
 {
@@ -125,11 +132,11 @@ int main()
 	int poz;
 	citire();
 	afisare();
-	//poz = fanion(564); //cautam anul 564 din fisierul Carti.txt 
-	//shell();
-	quick(0, n);
+	poz = fanion(564); //cautam anul 564 din fisierul Carti.txt 
+	shell();
+	//quick(0, n);
 	afisare();// afisam sortat 
-	poz = interpolare(564); //executam dupa o sortare
+	//poz = interpolare(564); //executam dupa o sortare
 	afisare();
 	_getch();
 	return 0;
